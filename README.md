@@ -1,7 +1,7 @@
 <!-- ================= CYBERPUNK HERO ================= -->
 
 <h1 align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&pause=1000&color=00F7FF&center=true&vCenter=true&width=700&lines=Abdelhalim+Adem;Halim+Tek;Full-Stack+Developer;MERN+Stack+Specialist;Flutter+%26+Android+Developer;Building+Scalable+Digital+Systems" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=28&pause=1000&color=00F7FF&center=true&vCenter=true&width=700&lines=Abdelhalim+Adem;HalimTek;Full-Stack+Developer;MERN+Stack+Specialist;Flutter+%26+Android+Developer;Building+Scalable+Digital+Systems" />
 </h1>
 
 <p align="center">
