@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    /* Light Mode - Professional Slate */
+    /* Light Mode - Clean Slate */
     --bg-primary: #f8fafc;
     --text-primary: #0f172a;
     --glass-bg: rgba(255, 255, 255, 0.7);
@@ -18,12 +18,12 @@
     --bg-primary: #030712;
     --text-primary: #f8fafc;
     --glass-bg: rgba(3, 7, 18, 0.7);
-    --glass-border: rgba(59, 130, 246, 0.1);
+    --glass-border: rgba(59, 130, 246, 0.1); /* Subtle blue glow */
   }
 
   html {
     scroll-behavior: smooth;
-    /* Prevents layout shift when scrollbar appears */
+    /* Prevents layout "jumping" when scrollbar appears */
     scrollbar-gutter: stable;
   }
 
@@ -32,12 +32,13 @@
     color: var(--text-primary);
     transition: background-color 0.5s ease, color 0.5s ease;
     
-    /* CRITICAL FIX: 'clip' allows sticky positioning to work 
-       while still preventing horizontal overflow.
+    /* CRITICAL FIX: 'clip' allows 'sticky' to function 
+       while still preventing horizontal overflow. 
     */
     overflow-x: clip; 
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
+    position: relative;
   }
 }
 
@@ -54,10 +55,11 @@
 
   .glass-card:hover {
     border-color: rgba(37, 99, 235, 0.3);
+    transform: translateY(-4px);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   }
 
-  /* --- Engineering Inputs --- */
+  /* --- Engineering Input Styles --- */
   .pro-input {
     width: 100%;
     padding: 0.85rem 1.25rem;
@@ -67,16 +69,16 @@
     border: 1px solid var(--glass-border);
     color: inherit;
     transition: all 0.3s ease;
+    outline: none;
   }
 
   .pro-input:focus {
-    outline: none;
     border-color: var(--accent-blue);
     background: rgba(128, 128, 128, 0.08);
     box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
   }
 
-  /* --- Typography & Gradients --- */
+  /* --- Typography Utilities --- */
   .text-gradient {
     background: linear-gradient(to right, #60a5fa, #3b82f6, #6366f1);
     -webkit-background-clip: text;
@@ -86,7 +88,7 @@
 
   .pro-label {
     display: block;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 0.2em;
@@ -96,23 +98,21 @@
   }
 }
 
-/* --- Layout Helpers --- */
+/* --- Layout Refinements --- */
 
-/* Fixes the "Boring Line" by adding a soft transition to sections */
+/* Ensures the Navbar doesn't cover section headers when jumping */
 section {
   scroll-margin-top: var(--nav-height);
 }
 
-/* Background Glow Effect */
-.bg-blob {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.07) 0%, transparent 50%);
-  z-index: -1;
-  pointer-events: none;
+/* Fix for the "Boring White Line" - Smooth Navbar transition */
+nav.scrolled {
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+}
+
+.dark nav.scrolled {
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 
+              0 1px 0 0 rgba(59, 130, 246, 0.05); /* Subtle glow instead of line */
 }
 
 /* Custom Scrollbar for the 'HalimTek' Aesthetic */
