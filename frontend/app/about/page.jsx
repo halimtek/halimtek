@@ -1,71 +1,62 @@
 "use client";
 import { motion } from "framer-motion";
+import TerminalUI from "@components/TerminalUI";
 
-export default function AboutPage() {
-  const stack = [
-    "Next.js & React", 
-    "Flutter & Dart", 
-    "Node.js & FastAPI", 
-    "PostgreSQL & MongoDB", 
-    "Docker & Linux", 
-    "UI/UX Design"
-  ];
-
+export default function AboutSection() {
   return (
-    <main className="pt-32 pb-20 px-6 max-w-6xl mx-auto">
-      <div className="flex items-center gap-4 mb-12">
-        <h2 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
-          <span className="text-blue-500 font-mono text-xl mr-2">01.</span> Our Identity
-        </h2>
-        <div className="h-[1px] bg-white/10 flex-grow max-w-xs"></div>
-      </div>
+    <section id="about" className="max-w-7xl mx-auto px-6 py-20">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        
+        {/* Left Side: The Human Story (About) */}
+        <div className="lg:col-span-5 space-y-6">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-5xl font-black tracking-tighter uppercase dark:text-white leading-[0.85]">
+              Human <br /> 
+              <span className="text-blue-600 text-6xl">Behind.</span> <br />
+              The Code.
+            </h2>
+            
+            <div className="mt-8 space-y-4 text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
+              <p>
+                I am <span className="text-slate-900 dark:text-white font-bold">Abdelhalim Adem</span>, 
+                a Computer Engineer based in Addis Ababa. I specialize in building 
+                high-performance digital infrastructure through **HalimTek**.
+              </p>
+              <p>
+                My approach combines the stability of **Ubuntu Linux** systems with 
+                the modern agility of **Flutter** and **Next.js**. I don't just write 
+                code; I architect solutions that solve real-world problems.
+              </p>
+            </div>
 
-      <div className="grid md:grid-cols-2 gap-16 items-start">
-        <div className="space-y-6 text-slate-500 dark:text-gray-400 leading-relaxed text-lg">
-          <p>
-            Welcome to <span className="text-slate-900 dark:text-white font-bold">HalimTek</span>. We are a technology-driven studio 
-            dedicated to engineering high-performance digital products. Founded by a Computer Engineer 
-            with a passion for pixel-perfect execution, we bridge the gap between complex backend 
-            architecture and intuitive user experiences.
-          </p>
+            {/* Quick Stats Labels */}
+            <div className="flex flex-wrap gap-3 mt-10">
+              {["Full-Stack", "Mobile", "DevOps", "Ethiopia"].map((tag) => (
+                <span key={tag} className="px-4 py-2 bg-blue-600/5 border border-blue-500/10 text-[9px] font-mono text-blue-600 uppercase tracking-widest rounded-full">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Right Side: The Technical Identity (Terminal) */}
+        <div className="lg:col-span-7 relative">
+          {/* Subtle glow behind terminal */}
+          <div className="absolute -inset-4 bg-blue-600/10 blur-[60px] rounded-full opacity-50" />
+          <TerminalUI />
           
-          <p>
-            Our core mission is to empower businesses and individuals by building robust 
-            <span className="text-blue-400"> mobile applications</span> and 
-            <span className="text-blue-400"> modern websites</span>. Whether it’s an educational platform 
-            or a professional portfolio, we treat every line of code as a foundation for growth.
+          {/* Caption for Terminal */}
+          <p className="mt-4 text-right font-mono text-[9px] text-slate-500 uppercase tracking-[0.3em]">
+            // halimtek_os_v1.0.4.sh --running
           </p>
-
-          <p>
-            Operating primarily on <span className="text-slate-900 dark:text-white">Ubuntu Linux</span>, our development 
-            environment is optimized for speed, security, and scalability. We don't just build apps; 
-            we engineer digital solutions that last.
-          </p>
-
-          <p className="text-sm font-mono text-blue-500 uppercase tracking-widest pt-4">
-            Technical Arsenal:
-          </p>
-          <ul className="grid grid-cols-2 gap-x-4 gap-y-2 font-mono text-sm">
-            {stack.map((item) => (
-              <li key={item} className="flex items-center gap-2">
-                <span className="text-blue-500">▹</span> {item}
-              </li>
-            ))}
-          </ul>
         </div>
 
-        <div className="relative group mx-auto md:mx-0">
-          {/* Glassmorphism Image Container */}
-          <div className="glass-card p-4 relative z-10">
-             <div className="aspect-square rounded-2xl bg-gradient-to-br from-blue-600/20 to-indigo-900/40 flex items-center justify-center border border-white/5 overflow-hidden">
-                {/* Brand Placeholder - You can replace this with your HalimTek Logo */}
-                <span className="text-7xl font-black text-slate-900 dark:text-white/10 select-none tracking-tighter">HT</span>
-             </div>
-          </div>
-          {/* Decorative frame */}
-          <div className="absolute top-6 left-6 w-full h-full border-2 border-blue-500 rounded-3xl -z-10 group-hover:top-4 group-hover:left-4 transition-all duration-300"></div>
-        </div>
       </div>
-    </main>
+    </section>
   );
 }
