@@ -14,72 +14,38 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: "About", href: "/#about" },
-    { name: "Services", href: "/#services" },
-    { name: "Projects", href: "/#projects" },
-  ];
-
   return (
-    <nav 
-      className={`fixed top-0 w-full z-[100] transition-all duration-500 ${
-        scrolled 
-          ? "h-16 bg-white/70 dark:bg-[#030712]/70 backdrop-blur-md border-b border-slate-200 dark:border-blue-500/10 shadow-2xl" 
-          : "h-20 bg-transparent"
-      }`}
-    >
-      {/* Scroll Progress Bar (The Pro Touch) */}
-      <motion.div
-        className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-600 origin-left"
+    <nav className={`fixed top-0 w-full z-[100] transition-all duration-500 ${
+      scrolled 
+        ? "h-16 bg-white/80 dark:bg-[#030712]/80 backdrop-blur-xl shadow-[0_10px_30px_-10px_rgba(59,130,246,0.1)]" 
+        : "h-20 bg-transparent"
+    }`}>
+      {/* Animated Scroll Indicator - Replaces the boring line */}
+      <motion.div 
+        className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500 to-transparent origin-left"
         style={{ scaleX: scrollYProgress }}
       />
 
       <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
-        {/* Brand */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-black text-white text-xs group-hover:rotate-12 transition-transform">
-            H
-          </div>
-          <span className="text-xl font-black tracking-tighter dark:text-white uppercase">
-            HALIM<span className="text-blue-600">TEK</span>
-          </span>
+        <Link href="/" className="flex items-center gap-2 group font-black text-xl tracking-tighter uppercase dark:text-white">
+          HALIM<span className="text-blue-600">TEK</span>
         </Link>
 
-        {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-8">
-          <div className="flex gap-8">
-            {navLinks.map((link) => (
-              <Link 
-                key={link.name}
-                href={link.href}
-                className="text-[10px] font-mono uppercase tracking-[0.2em] text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                {link.name}
-              </Link>
-            ))}
+          <div className="flex gap-8 text-[10px] font-mono uppercase tracking-widest text-slate-500">
+            <Link href="/#about" className="hover:text-blue-500 transition-colors">About</Link>
+            <Link href="/#services" className="hover:text-blue-500 transition-colors">Services</Link>
+            <Link href="/#projects" className="hover:text-blue-500 transition-colors">Projects</Link>
           </div>
-          
-          <div className="h-4 w-[1px] bg-slate-200 dark:bg-blue-500/20" />
-          
-          <div className="flex items-center gap-5">
-           
-            <Link 
-              href="/login" 
-              className="text-[10px] font-mono font-bold uppercase text-slate-500 hover:text-blue-500 transition-colors"
-            >
-              Login
-            </Link>
-            <Link 
-              href="/register" 
-              className="relative group px-6 py-2 overflow-hidden rounded-full bg-slate-900 dark:bg-white transition-all"
-            >
-              <span className="relative z-10 text-[10px] font-mono font-black uppercase text-white dark:text-black group-hover:text-blue-500 transition-colors">
-                Join Academy
-              </span>
-              <div className="absolute inset-0 bg-blue-600 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300" />
-            </Link>
 
-             <ThemeToggle />
+          <div className="h-4 w-[1px] bg-slate-200 dark:bg-white/10" />
+
+          <div className="flex items-center gap-6">
+            <ThemeToggle />
+            <Link href="/login" className="text-[10px] font-mono font-bold uppercase text-slate-500 hover:text-blue-500">Login</Link>
+            <Link href="/register" className="px-6 py-2.5 bg-blue-600 text-white text-[10px] font-mono font-black uppercase rounded-full shadow-lg shadow-blue-500/20 hover:scale-105 active:scale-95 transition-all">
+              Join Academy
+            </Link>
           </div>
         </div>
       </div>
