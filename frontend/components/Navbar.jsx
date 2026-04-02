@@ -175,7 +175,7 @@ export default function Navbar() {
 
           {/* New User Action Area */}
           <div className="flex items-center gap-6">
-            <ThemeToggle />
+            
             
             <Link 
               href="/login" 
@@ -190,6 +190,7 @@ export default function Navbar() {
             >
               Join Academy
             </Link>
+            <ThemeToggle />
           </div>
         </div>
 
