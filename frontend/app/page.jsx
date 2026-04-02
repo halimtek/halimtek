@@ -1,22 +1,18 @@
 "use client";
 import Hero from "@/components/Hero";
-import BentoGrid from "@/components/BentoGrid";
-import TerminalUI from "@/components/TerminalUI";
-import ProjectSlider from "@/components/ProjectSlider";
-import Projects from "@/app/projects/page";
+import About from "@/app/about/page"; // We can treat the pages as components
 import Services from "@/app/services/page";
-import { motion } from "framer-motion";
+import Projects from "@/app/projects/page";
+import Contact from "@/app/contact/page";
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-32 overflow-x-clip pb-20">
-      
-      {/* 1. HERO SECTION - The "Hook" */}
-      <section id="hero" className="min-h-screen flex items-center">
+    <div className="flex flex-col gap-20">
+      <section id="hero">
         <Hero />
       </section>
-      
-      {/* 2. ABOUT SECTION - The "Identity" */}
+
+       {/* 2. ABOUT SECTION - The "Identity" */}
       <section id="about" className="max-w-7xl mx-auto px-6 w-full">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -49,60 +45,22 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
+      
+      <section id="about">
+        <About />
+      </section>
 
-      {/* 3. SERVICES SECTION - The "Capabilities" */}
-      <section id="services" className="max-w-7xl mx-auto px-6 w-full">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
-          <div>
-            <h2 className="text-4xl font-black tracking-tighter uppercase dark:text-white">
-              Tech <span className="text-blue-600">Stack.</span>
-            </h2>
-            <p className="font-mono text-[10px] text-slate-500 uppercase tracking-widest mt-2">
-              // Scalable Solutions & Modern Frameworks
-            </p>
-          </div>
-          <div className="h-[1px] flex-grow bg-gradient-to-r from-transparent via-slate-200 dark:via-white/10 to-transparent hidden md:block mx-10 mb-4" />
-        </div>
-        
+      <section id="services">
         <Services />
       </section>
 
-      {/* 4. PROJECTS SECTION - The "Evidence" */}
-      <section id="projects" className="max-w-7xl mx-auto px-6 w-full">
-        <div className="mb-12">
-          <h2 className="text-4xl font-black tracking-tighter uppercase dark:text-white">
-            Live <span className="text-blue-600">Deployments.</span>
-          </h2>
-        </div>
-        
+      <section id="projects">
         <Projects />
       </section>
 
-      {/* 5. CONTACT SECTION - The "Protocol" */}
-      <section id="contact" className="max-w-7xl mx-auto px-6 w-full py-20">
-        <div className="glass-card p-12 text-center relative overflow-hidden">
-          {/* Subtle background text */}
-          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-8xl font-black opacity-[0.02] dark:opacity-[0.03] select-none pointer-events-none">
-            HALIMTEK
-          </span>
-          
-          <h2 className="text-4xl font-black tracking-tighter uppercase dark:text-white relative z-10">
-            Start the <span className="text-blue-600">Onboarding.</span>
-          </h2>
-          <p className="mt-4 text-slate-500 uppercase font-mono text-xs tracking-widest relative z-10">
-            Ready to initialize your next project?
-          </p>
-          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center relative z-10">
-            <button className="px-10 py-4 bg-blue-600 text-white font-black uppercase text-xs rounded-xl shadow-xl shadow-blue-600/20 hover:scale-105 transition-all">
-              Initialize Contact
-            </button>
-            <button className="px-10 py-4 border border-slate-200 dark:border-white/10 dark:text-white font-black uppercase text-xs rounded-xl hover:bg-white/5 transition-all">
-              View Documentation
-            </button>
-          </div>
-        </div>
+      <section id="contact">
+        <Contact />
       </section>
-
     </div>
   );
 }
