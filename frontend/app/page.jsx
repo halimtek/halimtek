@@ -4,6 +4,7 @@ import About from "@/app/about/page"; // We can treat the pages as components
 import Services from "@/app/services/page";
 import Projects from "@/app/projects/page";
 import Contact from "@/app/contact/page";
+import TerminalUI from "@/components/TerminalUI"
 
 export default function Home() {
   return (
