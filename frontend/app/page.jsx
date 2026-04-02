@@ -4,6 +4,7 @@ import BentoGrid from "@/components/BentoGrid";
 import TerminalUI from "@/components/TerminalUI";
 import ProjectSlider from "@/components/ProjectSlider";
 import Projects from "@/app/projects/page";
+import Services from "@/app/services/page";
 import { motion } from "framer-motion";
 
 export default function Home() {
@@ -63,7 +64,7 @@ export default function Home() {
           <div className="h-[1px] flex-grow bg-gradient-to-r from-transparent via-slate-200 dark:via-white/10 to-transparent hidden md:block mx-10 mb-4" />
         </div>
         
-        <BentoGrid />
+        <Services />
       </section>
 
       {/* 4. PROJECTS SECTION - The "Evidence" */}
