@@ -14,7 +14,7 @@ export default function LoginPage() {
         <LoginForm />
       </section>
 
-      <Footer />
+      
     </main>
   );
 }
