@@ -1,36 +1,47 @@
-import RegisterForm from "@/components/RegistrationForm";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import RegisterForm from "@/components/RegistrationForm";
 
 export default function RegisterPage() {
   return (
-    <main className="min-h-[150vh] bg-slate-50 dark:bg-[#030712]">
+    <main className="relative min-h-screen">
       <Navbar />
       
-      <div className="max-w-7xl mx-auto px-6 pt-32 grid grid-cols-1 md:grid-cols-2 gap-12">
-        {/* Left Side: Some long content to scroll past */}
+      {/* CRITICAL: 'items-start' allows the right column to act as a 
+        track for the sticky form. Without it, the form won't move.
+      */}
+      <div className="max-w-7xl mx-auto px-6 pt-32 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+        
+        {/* Left Side Content */}
         <div className="space-y-12">
-          <h1 className="text-6xl font-black dark:text-white uppercase tracking-tighter leading-none">
-            Master the <br/> <span className="text-blue-600">Digital Craft.</span>
-          </h1>
-          <div className="h-[800px] border-l border-white/5 pl-8">
-            <p className="text-gray-500 font-mono text-sm leading-relaxed">
-               // Scroll down to see the form follow you.
-               <br/><br/>
-               Our curriculum is designed for engineers who want to go beyond 
-               the basics. From Next.js architecture to Flutter performance 
-               optimization.
+          <div className="space-y-4">
+            <h1 className="text-7xl md:text-8xl font-black tracking-tighter leading-none dark:text-white uppercase">
+              JOIN THE <br/> <span className="text-blue-600 underline">COHORT.</span>
+            </h1>
+            <p className="text-gray-500 font-mono text-xs uppercase tracking-widest">
+              // Enrollment is currently open for Spring 2026
             </p>
+          </div>
+
+          <div className="prose prose-invert max-w-none">
+            {/* Add lots of content here to make the page long enough to test scroll */}
+            <div className="h-[1200px] border-l border-blue-600/20 pl-8 space-y-10">
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold dark:text-white uppercase tracking-tight">Expert Mentorship</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">Learn directly from Full-stack engineers building production-grade solutions in Ethiopia and beyond.</p>
+              </div>
+              {/* Duplicate or add more sections to ensure scrolling */}
+            </div>
           </div>
         </div>
 
-        {/* Right Side: The Sticky Form */}
-        <div className="relative">
+        {/* Right Side Sticky Form */}
+        <div className="relative w-full">
           <RegisterForm />
         </div>
       </div>
 
-    
+      <Footer />
     </main>
   );
 }

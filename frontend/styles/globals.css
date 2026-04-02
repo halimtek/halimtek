@@ -2,34 +2,106 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    /* Light Mode Variables */
+    --bg-primary: #f8fafc;
+    --text-primary: #0f172a;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(0, 0, 0, 0.05);
+    
+    /* Branding Colors */
+    --brand-blue: #3b82f6;
+    --brand-indigo: #6366f1;
+    
+    /* Layout Constants */
+    --nav-height: 80px;
+  }
 
-html {
-  scroll-behavior: smooth;
+  .dark {
+    /* Dark Mode Variables */
+    --bg-primary: #030712;
+    --text-primary: #f8fafc;
+    --glass-bg: rgba(3, 7, 18, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.05);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.5s ease, color 0.5s ease;
+    
+    /* CRITICAL: 'overflow-x: clip' prevents horizontal scroll 
+       WITHOUT breaking 'position: sticky' for children. 
+    */
+    overflow-x: clip; 
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
 }
 
-/* Ensure sections have enough padding so they don't look cramped */
+/* --- Component Utilities --- */
+
+@layer components {
+  /* High-end Glassmorphism */
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-card:hover {
+    border-color: rgba(59, 130, 246, 0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Professional Form Inputs */
+  .pro-input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-size: 0.875rem;
+    border-radius: 0.75rem;
+    background: rgba(128, 128, 128, 0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+  }
+
+  .pro-input:focus {
+    outline: none;
+    border-color: var(--brand-blue);
+    background: rgba(128, 128, 128, 0.08);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+  }
+
+  .dark .pro-input {
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  /* Typography */
+  .text-gradient {
+    background: linear-gradient(to right, #60a5fa, var(--brand-blue), var(--brand-indigo));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* --- Layout Utilities --- */
+
+/* Ensures fixed Navbars don't overlap section titles on jump */
 section {
-  scroll-margin-top: 80px; /* This ensures the navbar doesn't cover the title when jumping */
+  scroll-margin-top: var(--nav-height);
 }
 
-:root {
-  --bg: #030712;
-}
-
-/* stunning text gradient without @apply errors */
-.text-gradient {
-  background: linear-gradient(to right, #60a5fa, #3b82f6, #6366f1);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.glass-card:hover {
-  border-color: rgba(59, 130, 246, 0.5);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-/* Background glow effect */
+/* Background decorative glow */
 .bg-blob {
   position: fixed;
   top: 0;
@@ -41,34 +113,20 @@ section {
   pointer-events: none;
 }
 
-
-
-@layer base {
-  :root {
-    --bg-primary: #f8fafc; /* Soft White-Blue */
-    --text-primary: #0f172a; /* Deep Navy */
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(0, 0, 0, 0.05);
-  }
-
-  .dark {
-    --bg-primary: #030712; /* Deep Black-Navy */
-    --text-primary: #f8fafc; /* Soft White */
-    --glass-bg: rgba(3, 7, 18, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.05);
-  }
+/* --- Scrollbar Customization --- */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  transition: background-color 0.5s ease, color 0.5s ease;
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
 }
 
-/* Stunning Glassmorphism updated for both modes */
-.glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  border-radius: 1.5rem;
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-blue);
 }
