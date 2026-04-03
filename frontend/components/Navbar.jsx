@@ -32,14 +32,14 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-8">
           <Link href="/#about" className="text-[10px] font-mono uppercase tracking-widest text-slate-500 hover:text-blue-500 transition-colors">About</Link>
           <Link href="/#services" className="text-[10px] font-mono uppercase tracking-widest text-slate-500 hover:text-blue-500 transition-colors">Services</Link>
-          <ThemeToggle />
+         
           <Link href="/login" className="text-[10px] font-mono font-bold uppercase text-slate-500">Login</Link>
           <Link href="/register" className="px-5 py-2 bg-blue-600 text-white text-[10px] font-mono font-black uppercase rounded-lg shadow-lg shadow-blue-500/20">Join</Link>
         </div>
 
         {/* Mobile Toggle Button - Visible only on Mobile */}
         <div className="flex md:hidden items-center gap-4 z-[110]">
-          
+          <ThemeToggle />
           <button 
             onClick={() => setIsOpen(!isOpen)}
             className="text-slate-900 dark:text-white p-2"
@@ -69,7 +69,7 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-      <ThemeToggle />
+       <ThemeToggle />
     </nav>
   );
 }
