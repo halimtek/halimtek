@@ -39,7 +39,7 @@ export default function Navbar() {
 
         {/* Mobile Toggle Button - Visible only on Mobile */}
         <div className="flex md:hidden items-center gap-4 z-[110]">
-          <ThemeToggle />
+          
           <button 
             onClick={() => setIsOpen(!isOpen)}
             className="text-slate-900 dark:text-white p-2"
@@ -69,6 +69,7 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+      <ThemeToggle />
     </nav>
   );
 }

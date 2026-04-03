@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import TerminalUI from "@components/TerminalUI";
+import TerminalUI from "@/components/TerminalUI";
 
 export default function AboutSection() {
   return (
@@ -14,6 +14,7 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
+            <p className="text-blue-500 font-mono text-sm uppercase tracking-widest mb-4">// 01. Our Identity</p>
             <h2 className="text-5xl font-black tracking-tighter uppercase dark:text-white leading-[0.85]">
               Human <br /> 
               <span className="text-blue-600 text-6xl">Behind.</span> <br />
