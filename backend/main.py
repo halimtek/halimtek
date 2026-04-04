@@ -19,7 +19,7 @@ app.add_middleware(
 )
 
 # MongoDB Connection
-MONGO_URL = os.getenv("MONGO_URL", "mongodb+srv://halimtek:03030303@cluster0.xiqlqkt.mongodb.net/")
+MONGO_URL = os.getenv()
 client = AsyncIOMotorClient(MONGO_URL)
 db = client.halimtek_db
 
