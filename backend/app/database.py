@@ -17,6 +17,7 @@ if not MONGO_URL:
     raise ValueError("❌ ERROR: MONGO_URL not found in .env file. Check your variable names!")
 
 DB_NAME = os.getenv("DB_NAME", "halimtek_db")
+
 SECRET_KEY = os.getenv("JWT_SECRET", "HALIM_TEK_SECURE_2026")
 
 # --- 2. THE CONNECTION ---
