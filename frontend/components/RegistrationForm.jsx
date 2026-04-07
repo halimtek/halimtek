@@ -5,6 +5,22 @@ import { motion } from "framer-motion";
 
 export default function RegisterForm() {
   const [loading, setLoading] = useState(false);
+  const [selectedTracks, setSelectedTracks] = useState([]);
+
+  // The Engineering Menu
+  const engineeringTracks = [
+    { id: "cpp", label: "C++ Systems", icon: "⚙️" },
+    { id: "cyber", label: "Ethical Hacking", icon: "🛡️" },
+    { id: "fullstack", label: "Full-Stack Web", icon: "🌐" },
+    { id: "mobile", label: "App Dev (Flutter)", icon: "📱" },
+  ];
+
+  // Fixes the 'any' type error by being explicit (or keeping it JS friendly)
+  const toggleTrack = (id) => {
+    setSelectedTracks((prev) =>
+      prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]
+    );
+  };
 
   return (
     <motion.div 
@@ -12,7 +28,7 @@ export default function RegisterForm() {
       animate={{ opacity: 1, x: 0 }}
       className="sticky top-28 w-full max-w-2xl z-40 self-start"
     >
-      <div className="glass-card p-1 shadow-2xl overflow-hidden rounded-[2rem]">
+      <div className="glass-card p-1 shadow-2xl overflow-hidden rounded-[2rem] border border-white/10">
         <div className="bg-white/5 dark:bg-[#030712]/40 backdrop-blur-3xl p-8 md:p-12">
           
           {/* Header Section */}
@@ -35,54 +51,61 @@ export default function RegisterForm() {
             {/* Group 1: Identity */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="form-group">
-                <label className="pro-label">Full Legal Name</label>
+                <label className="pro-label text-xs font-bold uppercase text-slate-400 mb-2 block">Full Legal Name</label>
                 <div className="relative">
-                  <input type="text" placeholder="e.g. Abdelhalim Adem" className="pro-input" />
-                  <span className="input-icon">👤</span>
+                  <input type="text" placeholder="Abdelhalim Adem" className="pro-input w-full bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-blue-500" />
                 </div>
               </div>
               <div className="form-group">
-                <label className="pro-label">Professional Email</label>
+                <label className="pro-label text-xs font-bold uppercase text-slate-400 mb-2 block">Professional Email</label>
                 <div className="relative">
-                  <input type="email" placeholder="name@domain.com" className="pro-input" />
-                  <span className="input-icon">✉️</span>
+                  <input type="email" placeholder="name@domain.com" className="pro-input w-full bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-blue-500" />
                 </div>
               </div>
             </div>
 
-            {/* Group 2: Technical Focus */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="form-group">
-                <label className="pro-label">Primary Stack</label>
-                <select className="pro-input appearance-none">
-                  <option>Full-Stack (Next.js/FastAPI)</option>
-                  <option>Mobile (Flutter/Dart)</option>
-                  <option>Systems (Python/Linux)</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label className="pro-label">Experience Tier</label>
-                <select className="pro-input appearance-none">
-                  <option>Junior Associate</option>
-                  <option>Mid-Level Engineer</option>
-                  <option>Senior/Lead Architect</option>
-                </select>
+            {/* Group 2: THE NEW MULTI-SELECT TRACKS */}
+            <div className="form-group">
+              <label className="pro-label text-xs font-bold uppercase text-slate-400 mb-4 block">Select Engineering Specializations</label>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {engineeringTracks.map((track) => (
+                  <button
+                    key={track.id}
+                    type="button"
+                    onClick={() => toggleTrack(track.id)}
+                    className={`p-3 rounded-2xl border transition-all text-center flex flex-col items-center gap-2 ${
+                      selectedTracks.includes(track.id)
+                        ? "bg-blue-600/20 border-blue-600 text-blue-400"
+                        : "bg-white/5 border-white/5 text-slate-500 hover:border-white/20"
+                    }`}
+                  >
+                    <span className="text-xl">{track.icon}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-tight">{track.label}</span>
+                  </button>
+                ))}
               </div>
             </div>
 
             {/* Group 3: Project Intent */}
             <div className="form-group">
-              <label className="pro-label">Project Vision (Short Summary)</label>
-              <textarea rows="3" placeholder="Describe the application you intend to build..." className="pro-input resize-none" />
+              <label className="pro-label text-xs font-bold uppercase text-slate-400 mb-2 block">Project Vision</label>
+              <textarea rows="2" placeholder="Describe the application you intend to build..." className="pro-input w-full bg-white/5 border border-white/10 p-3 rounded-xl outline-none focus:border-blue-500 resize-none" />
             </div>
 
             {/* Action Section */}
             <div className="pt-4">
-              <button className="pro-btn-primary">
-                Confirm & Initialize Account
+              <button 
+                disabled={selectedTracks.length === 0}
+                className={`pro-btn-primary w-full py-4 rounded-2xl font-black uppercase tracking-widest transition-all ${
+                  selectedTracks.length === 0 
+                  ? "bg-slate-800 text-slate-600 cursor-not-allowed" 
+                  : "bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-900/20"
+                }`}
+              >
+                {selectedTracks.length === 0 ? "Select a Track" : "Confirm & Initialize Account"}
               </button>
               <p className="text-center text-[10px] font-mono text-slate-500 mt-6 uppercase tracking-widest">
-                By submitting, you agree to the <span className="text-blue-500 cursor-pointer">Protocol Terms</span>
+                By submitting, you agree to the <span className="text-blue-500 cursor-pointer italic">Halim Tek Protocols</span>
               </p>
             </div>
           </form>
