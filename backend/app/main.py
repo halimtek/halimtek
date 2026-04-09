@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 from typing import List, Optional
 from dotenv import load_dotenv
+import bcrypt 
 from bson import ObjectId
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -66,9 +67,23 @@ class UserLogin(BaseModel):
     email: EmailStr
     password: str
 
+
 # --- UTILITIES ---
-def get_password_hash(password): return pwd_context.hash(password)
-def verify_password(p, h): return pwd_context.verify(p, h)
+def get_password_hash(password: str):
+    # Hash a password for the first time
+    # (bcrypt requires bytes, so we encode the string)
+    pwd_bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(pwd_bytes, salt)
+    return hashed_password.decode('utf-8')
+
+def verify_password(plain_password: str, hashed_password: str):
+    # Check hashed password. 
+    # Returns True if it matches, False otherwise.
+    password_byte_enc = plain_password.encode('utf-8')
+    hashed_password_enc = hashed_password.encode('utf-8')
+    return bcrypt.checkpw(password_byte_enc, hashed_password_enc)
+
 
 async def send_system_mail(email: str, subject: str, body_html: str):
     try:

@@ -1,11 +1,21 @@
+# fastapi
+# uvicorn[standard]
+# motor
+# pymongo
+# pydantic
+# pydantic-settings
+# python-multipart
+# python-jose[cryptography]
+# passlib[bcrypt]
+# python-dotenv
+# fastapi-mail
 fastapi
-uvicorn[standard]
+uvicorn
 motor
 pymongo
-pydantic
-pydantic-settings
-python-multipart
-python-jose[cryptography]
-passlib[bcrypt]
 python-dotenv
+passlib[bcrypt]
+bcrypt==4.0.1
+python-jose[cryptography]
 fastapi-mail
+pydantic[email]
