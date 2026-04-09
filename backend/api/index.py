@@ -4,7 +4,7 @@ from typing import List, Optional
 from dotenv import load_dotenv
 import bcrypt 
 from bson import ObjectId
-from fastapi import FastAPI, HTTPException, status, BackgroundTasks
+from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -18,7 +18,6 @@ MONGO_URI = os.getenv("MONGO_URI")
 SECRET_KEY = os.getenv("SECRET_KEY", "halim_secret_production_key")
 ALGORITHM = "HS256"
 
-# Port 587 with STARTTLS is the most stable for Render -> Gmail
 conf = ConnectionConfig(
     MAIL_USERNAME=os.getenv("MAIL_USERNAME"),
     MAIL_PASSWORD=os.getenv("MAIL_PASSWORD"),
@@ -33,6 +32,7 @@ conf = ConnectionConfig(
     TIMEOUT=60
 )
 
+# Vercel needs the 'app' variable to be accessible in api/index.py
 app = FastAPI(title="HalimTek Engineering Core")
 
 # --- CORS ORIGINS ---
@@ -81,8 +81,11 @@ def verify_password(plain_password: str, hashed_password: str):
     hashed_password_enc = hashed_password.encode('utf-8')
     return bcrypt.checkpw(password_byte_enc, hashed_password_enc)
 
-async def send_system_mail_task(email: str, subject: str, body_html: str):
-    """Function to be executed in the background"""
+async def send_system_mail_now(email: str, subject: str, body_html: str):
+    """
+    On Vercel Serverless, we MUST use 'await' within the route 
+    to ensure the email sends before the function execution ends.
+    """
     try:
         message = MessageSchema(
             subject=subject,
@@ -100,10 +103,14 @@ async def send_system_mail_task(email: str, subject: str, body_html: str):
 
 @app.get("/")
 async def root():
-    return {"status": "Halim Tek Core Online", "version": "2.0.1"}
+    return {"status": "Halim Tek Core Online", "version": "2.0.1", "environment": "Vercel Serverless"}
+
+@app.get("/api/health")
+async def health():
+    return {"status": "running"}
 
 @app.post("/register", status_code=201)
-async def register_candidate(user: UserRegister, background_tasks: BackgroundTasks):
+async def register_candidate(user: UserRegister):
     # 1. Check if identity exists
     if await db.users.find_one({"email": user.email}):
         raise HTTPException(status_code=400, detail="Identity already registered.")
@@ -138,8 +145,8 @@ async def register_candidate(user: UserRegister, background_tasks: BackgroundTas
     </div>
     """
     
-    # 5. Offload email to background
-    background_tasks.add_task(send_system_mail_task, user.email, "Halim Tek: Application Pending", pending_html)
+    # 5. Send email (Awaiting specifically for Serverless)
+    await send_system_mail_now(user.email, "Halim Tek: Application Pending", pending_html)
     
     return {"id": str(result.inserted_id), "message": "Protocol Initialized. Checking credentials."}
 
@@ -156,7 +163,7 @@ async def login_session(user: UserLogin):
     return {"access_token": token, "name": db_user["full_name"]}
 
 @app.patch("/admin/approve/{user_id}")
-async def approve_user(user_id: str, background_tasks: BackgroundTasks):
+async def approve_user(user_id: str):
     user = await db.users.find_one({"_id": ObjectId(user_id)})
     if not user: 
         raise HTTPException(status_code=404, detail="User not found.")
@@ -175,6 +182,6 @@ async def approve_user(user_id: str, background_tasks: BackgroundTasks):
     </div>
     """
     
-    background_tasks.add_task(send_system_mail_task, user["email"], "Halim Tek: System Access Approved", approval_html)
-    
+    await send_system_mail_now(user["email"], "Halim Tek: System Access Approved", approval_html)
+  
     return {"message": "User activated."}
