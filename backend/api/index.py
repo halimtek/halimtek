@@ -29,7 +29,7 @@ conf = ConnectionConfig(
     MAIL_SSL_TLS=False,               
     USE_CREDENTIALS=True,
     VALIDATE_CERTS=True,
-    TIMEOUT=60
+    TIMEOUT=10,
 )
 
 # Vercel needs the 'app' variable to be accessible in api/index.py
@@ -82,10 +82,7 @@ def verify_password(plain_password: str, hashed_password: str):
     return bcrypt.checkpw(password_byte_enc, hashed_password_enc)
 
 async def send_system_mail_now(email: str, subject: str, body_html: str):
-    """
-    On Vercel Serverless, we MUST use 'await' within the route 
-    to ensure the email sends before the function execution ends.
-    """
+    print("LOG: 1. Starting email function...") # This will show in Vercel logs
     try:
         message = MessageSchema(
             subject=subject,
@@ -93,12 +90,17 @@ async def send_system_mail_now(email: str, subject: str, body_html: str):
             body=body_html,
             subtype=MessageType.html
         )
+        print("LOG: 2. Message created. Connecting to Gmail...")
         fm = FastMail(conf)
+        
         await fm.send_message(message)
-        print(f"✅ MAIL_SUCCESS: {email}")
+        print(f"LOG: 3. ✅ SUCCESS! Email sent to {email}")
+        
     except Exception as e:
-        print(f"⚠️ MAIL_ERROR: {str(e)}")
+        # This part catches the error and PRINTS it to the Vercel logs
+        print(f"LOG: ❌ ERROR FOUND: {str(e)}")
 
+        
 # --- ROUTES ---
 
 @app.get("/")
