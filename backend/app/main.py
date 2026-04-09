@@ -4,11 +4,10 @@ from typing import List, Optional
 from dotenv import load_dotenv
 import bcrypt 
 from bson import ObjectId
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 from motor.motor_asyncio import AsyncIOMotorClient
-from passlib.context import CryptContext
 from jose import jwt
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig, MessageType
 
@@ -19,22 +18,23 @@ MONGO_URI = os.getenv("MONGO_URI")
 SECRET_KEY = os.getenv("SECRET_KEY", "halim_secret_production_key")
 ALGORITHM = "HS256"
 
+# Port 465 is best for SSL/TLS on Render
 conf = ConnectionConfig(
     MAIL_USERNAME=os.getenv("MAIL_USERNAME"),
     MAIL_PASSWORD=os.getenv("MAIL_PASSWORD"),
     MAIL_FROM=os.getenv("MAIL_FROM"),
-    MAIL_PORT=int(os.getenv("MAIL_PORT", 465)),                  # Changed to 465
+    MAIL_PORT=465,                  
     MAIL_SERVER="smtp.gmail.com",
     MAIL_FROM_NAME="Halim Tek Core",
-    MAIL_STARTTLS=False,             # Set to False for Port 465
-    MAIL_SSL_TLS=True,               # Set to True for Port 465
+    MAIL_STARTTLS=False,             
+    MAIL_SSL_TLS=True,               
     USE_CREDENTIALS=True,
     VALIDATE_CERTS=True
 )
 
 app = FastAPI(title="HalimTek Engineering Core")
 
-# --- FIXED CORS ORIGINS ---
+# --- CORS ORIGINS ---
 origins = [
     "http://localhost:3000",
     "http://localhost:3001",
@@ -54,7 +54,6 @@ app.add_middleware(
 # --- DB INIT ---
 client = AsyncIOMotorClient(MONGO_URI)
 db = client.halimtek_db
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # --- SCHEMAS ---
 class UserRegister(BaseModel):
@@ -68,25 +67,20 @@ class UserLogin(BaseModel):
     email: EmailStr
     password: str
 
-
 # --- UTILITIES ---
 def get_password_hash(password: str):
-    # Hash a password for the first time
-    # (bcrypt requires bytes, so we encode the string)
     pwd_bytes = password.encode('utf-8')
     salt = bcrypt.gensalt()
     hashed_password = bcrypt.hashpw(pwd_bytes, salt)
     return hashed_password.decode('utf-8')
 
 def verify_password(plain_password: str, hashed_password: str):
-    # Check hashed password. 
-    # Returns True if it matches, False otherwise.
     password_byte_enc = plain_password.encode('utf-8')
     hashed_password_enc = hashed_password.encode('utf-8')
     return bcrypt.checkpw(password_byte_enc, hashed_password_enc)
 
-
-async def send_system_mail(email: str, subject: str, body_html: str):
+# Updated to a standard function for BackgroundTasks
+async def send_system_mail_task(email: str, subject: str, body_html: str):
     try:
         message = MessageSchema(
             subject=subject,
@@ -96,16 +90,19 @@ async def send_system_mail(email: str, subject: str, body_html: str):
         )
         fm = FastMail(conf)
         await fm.send_message(message)
+        print(f"✅ EMAIL_SENT: {email}")
     except Exception as e:
-        print(f"⚠️ MAIL ERROR: {e}")
+        print(f"⚠️ MAIL_SYSTEM_FAILURE: {str(e)}")
 
 # --- ROUTES ---
 
 @app.post("/register", status_code=201)
-async def register_candidate(user: UserRegister):
+async def register_candidate(user: UserRegister, background_tasks: BackgroundTasks):
+    # Check for existing user
     if await db.users.find_one({"email": user.email}):
         raise HTTPException(status_code=400, detail="Identity already registered.")
 
+    # Prepare user data
     new_user = {
         "full_name": user.fullName,
         "email": user.email,
@@ -117,8 +114,10 @@ async def register_candidate(user: UserRegister):
         "created_at": datetime.utcnow()
     }
 
+    # Insert into DB
     result = await db.users.insert_one(new_user)
     
+    # HTML Email Template
     pending_html = f"""
     <div style="background-color: #020617; color: #f8fafc; padding: 40px; font-family: 'Courier New', monospace; border: 1px solid #1e293b; border-radius: 8px; max-width: 600px; margin: auto;">
         <h2 style="color: #2dd4bf; border-bottom: 1px solid #1e293b; padding-bottom: 15px;">> HALIM_TEK_ONBOARDING_INITIALIZED</h2>
@@ -132,8 +131,11 @@ async def register_candidate(user: UserRegister):
         </footer>
     </div>
     """
-    await send_system_mail(user.email, "Halim Tek: Application Pending", pending_html)
-    return {"id": str(result.inserted_id), "message": "Onboarding started."}
+    
+    # Offload email to background task so the API responds instantly
+    background_tasks.add_task(send_system_mail_task, user.email, "Halim Tek: Application Pending", pending_html)
+    
+    return {"id": str(result.inserted_id), "message": "Protocol Initialized. Checking credentials."}
 
 @app.post("/login")
 async def login_session(user: UserLogin):
@@ -148,19 +150,26 @@ async def login_session(user: UserLogin):
     return {"access_token": token, "name": db_user["full_name"]}
 
 @app.patch("/admin/approve/{user_id}")
-async def approve_user(user_id: str):
+async def approve_user(user_id: str, background_tasks: BackgroundTasks):
     user = await db.users.find_one({"_id": ObjectId(user_id)})
-    if not user: raise HTTPException(status_code=404, detail="User not found.")
+    if not user: 
+        raise HTTPException(status_code=404, detail="User not found.")
 
-    await db.users.update_one({"_id": ObjectId(user_id)}, {"$set": {"is_approved": True, "status": "active"}})
+    await db.users.update_one(
+        {"_id": ObjectId(user_id)}, 
+        {"$set": {"is_approved": True, "status": "active"}}
+    )
     
-    # Live Vercel Link
     approval_html = f"""
     <div style="background-color: #020617; color: #f8fafc; padding: 40px; font-family: 'Courier New', monospace;">
         <h2 style="color: #10b981;">> ACCESS_GRANTED</h2>
         <p>Welcome, {user['full_name']}.</p>
+        <p>Your engineer profile has been activated.</p>
         <a href="https://halimtek.vercel.app/login" style="background-color: #10b981; color: #020617; padding: 12px 25px; text-decoration: none; font-weight: bold;">INITIALIZE_SESSION</a>
     </div>
     """
-    await send_system_mail(user["email"], "Halim Tek: System Access Approved", approval_html)
+    
+    # Background task for approval email
+    background_tasks.add_task(send_system_mail_task, user["email"], "Halim Tek: System Access Approved", approval_html)
+    
     return {"message": "User activated."}
