@@ -32,13 +32,22 @@ conf = ConnectionConfig(
 
 app = FastAPI(title="HalimTek Engineering Core")
 
+origins = [
+    "http://localhost:3000",
+    "http://localhost:3001", 
+    "http://127.0.0.1:3000"
+    "https://halimtek.vercel.app",        # Your Client URL
+    "https://admin.halimtek.vercel.app",  # Your Admin URL
+    "http://localhost:3000",              # Keep local for testing
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001", "http://127.0.0.1:3000"], 
+    allow_origins=origins,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 # --- DB INIT ---
 client = AsyncIOMotorClient(MONGO_URI)
 db = client.halimtek_db
