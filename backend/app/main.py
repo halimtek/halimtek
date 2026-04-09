@@ -191,18 +191,18 @@ load_dotenv()
 
 MONGO_URI = os.getenv("MONGO_URI")
 
-# FORCING 465 AND SSL HERE TO IGNORE WRONG ENV VARS
 conf = ConnectionConfig(
     MAIL_USERNAME=os.getenv("MAIL_USERNAME"),
     MAIL_PASSWORD=os.getenv("MAIL_PASSWORD"),
     MAIL_FROM=os.getenv("MAIL_FROM"),
-    MAIL_PORT=465,                  
+    MAIL_PORT=587,                  # Use 587
     MAIL_SERVER="smtp.gmail.com",
     MAIL_FROM_NAME="Halim Tek Core",
-    MAIL_STARTTLS=False,             
-    MAIL_SSL_TLS=True,               
+    MAIL_STARTTLS=True,             # STARTTLS must be True for 587
+    MAIL_SSL_TLS=False,             # SSL/TLS must be False for 587
     USE_CREDENTIALS=True,
-    VALIDATE_CERTS=True
+    VALIDATE_CERTS=True,
+    TIMEOUT=60                      # Increased timeout to allow for handshake
 )
 
 app = FastAPI(title="HalimTek Debug Build")
