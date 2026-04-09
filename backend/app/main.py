@@ -199,6 +199,6 @@ async def approve_user(user_id: str):
     
     return {"message": f"User {user['email']} activated and notified."}
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+# if __name__ == "__main__":
+#     import uvicorn
+#     uvicorn.run(app, host="0.0.0.0", port=8000)
