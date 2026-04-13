@@ -40,7 +40,7 @@ const RegistrationForm = () => {
 
     try {
       // Ensure this URL matches your Render backend URL
-      const response = await fetch('https://halimtek-q3yy.vercel.app/register', {
+      const response = await fetch(`${NEXT_PUBLIC_API_URL}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
