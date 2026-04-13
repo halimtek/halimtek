@@ -40,7 +40,7 @@ origins = [
     "http://localhost:3000",
     "http://localhost:3001",
     "https://halimtek.vercel.app",
-    "https://admin.halimtek.vercel.app",
+    "https://adminhalimtek.vercel.app",
     "https://halimtek.is-a.dev",
     "https://halimtek.onrender.com",
 ]
@@ -163,6 +163,19 @@ async def login_session(user: UserLogin):
 
     token = jwt.encode({"sub": db_user["email"]}, SECRET_KEY, algorithm=ALGORITHM)
     return {"access_token": token, "name": db_user["full_name"]}
+
+@app.get("/admin/candidates")
+async def get_candidates(status: str = "all"):
+    query = {}
+    if status != "all":
+        query["status"] = status
+    
+    cursor = db.users.find(query)
+    candidates = []
+    async for doc in cursor:
+        doc["_id"] = str(doc["_id"]) # Convert ObjectId to string for JSON
+        candidates.append(doc)
+    return candidates
 
 @app.patch("/admin/approve/{user_id}")
 async def approve_user(user_id: str):
