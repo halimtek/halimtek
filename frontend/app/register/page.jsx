@@ -52,7 +52,7 @@ export default function RegisterPage() {
         </div>
       </div>
 
-      <Footer />
+  
     </main>
   );
 }
