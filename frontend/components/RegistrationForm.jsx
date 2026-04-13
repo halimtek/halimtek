@@ -1,8 +1,9 @@
+""
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Mail, Lock, Code, Eye, Send, Loader2 } from 'lucide-react';
 
-const RegistrationForm = () => {
+const RegisterForm = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
