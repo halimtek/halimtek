@@ -4,13 +4,12 @@ from typing import List, Optional
 from dotenv import load_dotenv
 import bcrypt 
 from bson import ObjectId
-from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 from motor.motor_asyncio import AsyncIOMotorClient
 from jose import jwt
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig, MessageType
-from fastapi import BackgroundTasks
+from fastapi import FastAPI, HTTPException, status, BackgroundTasks # Add BackgroundTasks here
 # --- CONFIGURATION ---
 load_dotenv()
 
@@ -122,15 +121,16 @@ async def register_candidate(user: UserRegister, background_tasks: BackgroundTas
         "created_at": datetime.utcnow()
     }
 
-    # 3. Save to Atlas FIRST
+    # 3. Save to Atlas
     result = await db.users.insert_one(new_user)
     
     # 4. Construct Email Template
+    track_list = ", ".join(user.tracks) if user.tracks else "General"
     pending_html = f"""
     <div style="background-color: #020617; color: #f8fafc; padding: 40px; font-family: 'Courier New', monospace; border: 1px solid #1e293b; border-radius: 8px; max-width: 600px; margin: auto;">
         <h2 style="color: #2dd4bf; border-bottom: 1px solid #1e293b; padding-bottom: 15px;">> HALIM_TEK_ONBOARDING_INITIALIZED</h2>
         <p>Greetings, <span style="color: #2dd4bf;">{user.fullName}</span>.</p>
-        <p>Your vision for {', '.join(user.tracks)} is under review by our lead engineers.</p>
+        <p>Your vision for {track_list} is under review by our lead engineers.</p>
         <div style="background-color: #0f172a; border-left: 4px solid #f59e0b; padding: 15px; margin: 25px 0;">
             <p style="margin: 0; color: #f59e0b; font-weight: bold;">[SYSTEM_STATUS: PENDING_REVIEW]</p>
         </div>
@@ -140,13 +140,11 @@ async def register_candidate(user: UserRegister, background_tasks: BackgroundTas
     </div>
     """
     
-    # 5. The Secret Fix: Trigger the email but don't make the user wait for it
+    # 5. THE FIX: Add the email to background tasks
+    # This sends the response to the user FIRST, then sends the email.
     background_tasks.add_task(send_system_mail_now, user.email, "Halim Tek: Application Pending", pending_html)
     
-    return {
-        "id": str(result.inserted_id), 
-        "message": "Protocol Initialized. Checking credentials."
-    }
+    return {"id": str(result.inserted_id), "message": "Protocol Initialized. Checking credentials."}
 
 @app.post("/login")
 async def login_session(user: UserLogin):
