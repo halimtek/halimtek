@@ -23,22 +23,26 @@ export default function RegisterPage() {
           <div className="prose prose-invert max-w-none">
             <div className="h-[1200px] border-l border-teal-500/20 pl-8 space-y-10">
               <div className="space-y-4">
-                <h3 className="text-xl font-bold text-white uppercase tracking-tight">Expert Mentorship</h3>
+                <h3 className="text-xl font-bold text-white uppercase tracking-tight font-mono">Expert Mentorship</h3>
                 <p className="text-slate-500 text-sm leading-relaxed">
                   Learn directly from Full-stack engineers building production-grade solutions.
                 </p>
               </div>
-              {/* Add more sections here */}
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold text-white uppercase tracking-tight font-mono">Secure Core</h3>
+                <p className="text-slate-500 text-sm leading-relaxed">
+                  Architecture focused on scalability, performance, and cyber-security.
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Right Side Sticky Form - ADDED 'sticky' and 'top' */}
+        {/* Right Side Sticky Form */}
         <div className="lg:sticky lg:top-32 w-full">
           <RegistrationForm />
         </div>
       </div>
-
       <Footer />
     </main>
   );
