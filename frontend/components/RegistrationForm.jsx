@@ -62,14 +62,15 @@ const RegistrationForm = () => {
   };
 
   return (
-    <div className="w-full max-w-2xl bg-[#0f172a] border border-slate-800 rounded-2xl p-8 shadow-2xl backdrop-blur-sm">
+    /* This is now just a card, not a full page wrapper */
+    <div className="w-full bg-[#0f172a] border border-slate-800 rounded-2xl p-8 shadow-2xl backdrop-blur-sm">
       <div className="mb-8">
         <h2 className="text-3xl font-bold text-white mb-2 font-mono flex items-center gap-2">
           <Code className="text-teal-400" />
-          INITIALIZE_ENGINEER_PROFILE
+          INITIALIZE_PROFILE
         </h2>
-        <p className="text-slate-400 font-mono text-xs tracking-widest uppercase italic">
-          Halim Tek Core // Secure Onboarding
+        <p className="text-slate-400 font-mono text-xs tracking-widest uppercase">
+          Halim Tek // Secure Onboarding
         </p>
       </div>
 
@@ -106,7 +107,7 @@ const RegistrationForm = () => {
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 md:col-span-2">
             <label className="text-sm font-medium text-slate-300 flex items-center gap-2 font-mono">
               <Lock size={14} /> ACCESS_KEY
             </label>
@@ -119,28 +120,15 @@ const RegistrationForm = () => {
             />
           </div>
 
-          <div className="space-y-2 md:col-span-2">
-            <label className="text-sm font-medium text-slate-300 flex items-center gap-2 font-mono">
-              <Eye size={14} /> PROJECT_VISION
-            </label>
-            <textarea
-              required
-              rows="3"
-              className="w-full bg-[#020617] border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-teal-500 transition-colors"
-              placeholder="Describe your architectural goals..."
-              onChange={(e) => setFormData({...formData, projectVision: e.target.value})}
-            />
-          </div>
-
           <div className="md:col-span-2 space-y-3">
-            <label className="text-sm font-medium text-slate-300 font-mono">SELECT_SPECIALIZATION_TRACKS</label>
-            <div className="flex flex-wrap gap-3">
+            <label className="text-sm font-medium text-slate-300 font-mono">SPECIALIZATION_TRACKS</label>
+            <div className="flex flex-wrap gap-2">
               {availableTracks.map(track => (
                 <button
                   key={track.id}
                   type="button"
                   onClick={() => handleTrackChange(track.id)}
-                  className={`px-4 py-2 rounded-full border text-xs font-mono transition-all ${
+                  className={`px-3 py-1.5 rounded-full border text-[10px] font-mono transition-all ${
                     formData.tracks.includes(track.id)
                       ? 'bg-teal-500/20 border-teal-500 text-teal-400'
                       : 'border-slate-700 text-slate-500 hover:border-slate-500'
@@ -156,7 +144,7 @@ const RegistrationForm = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all disabled:opacity-50 font-mono"
+          className="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all disabled:opacity-50 font-mono uppercase tracking-widest"
         >
           {loading ? <Loader2 className="animate-spin" /> : <><Send size={18} /> INITIALIZE_PROTOCOL</>}
         </button>
