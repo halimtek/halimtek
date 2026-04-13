@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "HalimTek | Computer Engineer & Full-Stack Developer",
+  title: "HalimTek-Admin| Computer Engineer & Full-Stack Developer",
   description: "Professional portfolio of Abdelhalim Adem, specializing in Flutter and Next.js.",
 };
 
