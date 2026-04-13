@@ -42,9 +42,7 @@ const RegistrationForm = () => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
@@ -54,7 +52,7 @@ const RegistrationForm = () => {
         alert("Protocol Initialized. Your application is now pending review.");
         router.push('/login'); 
       } else {
-        setError(data.detail || "System rejected the protocol. Verify credentials.");
+        setError(data.detail || "System rejected the protocol.");
       }
     } catch (err) {
       setError("Connection Failure: Backend offline or unreachable.");
@@ -64,16 +62,13 @@ const RegistrationForm = () => {
   };
 
   return (
-    /* Removed the fullscreen layout classes to fix the scrolling issue */
     <div className="w-full max-w-2xl bg-[#0f172a] border border-slate-800 rounded-2xl p-8 shadow-2xl backdrop-blur-sm">
-      
-      {/* Header */}
       <div className="mb-8">
         <h2 className="text-3xl font-bold text-white mb-2 font-mono flex items-center gap-2">
           <Code className="text-teal-400" />
           INITIALIZE_ENGINEER_PROFILE
         </h2>
-        <p className="text-slate-400 font-mono text-xs tracking-widest uppercase">
+        <p className="text-slate-400 font-mono text-xs tracking-widest uppercase italic">
           Halim Tek Core // Secure Onboarding
         </p>
       </div>
@@ -86,7 +81,6 @@ const RegistrationForm = () => {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
           <div className="space-y-2">
             <label className="text-sm font-medium text-slate-300 flex items-center gap-2 font-mono">
               <User size={14} /> FULL_NAME
@@ -162,16 +156,9 @@ const RegistrationForm = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all disabled:opacity-50 font-mono uppercase tracking-widest"
+          className="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all disabled:opacity-50 font-mono"
         >
-          {loading ? (
-            <Loader2 className="animate-spin" />
-          ) : (
-            <>
-              <Send size={18} />
-              INITIALIZE_PROTOCOL
-            </>
-          )}
+          {loading ? <Loader2 className="animate-spin" /> : <><Send size={18} /> INITIALIZE_PROTOCOL</>}
         </button>
       </form>
     </div>

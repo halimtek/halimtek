@@ -4,54 +4,50 @@ import RegistrationForm from "@/components/RegistrationForm";
 
 export default function RegisterPage() {
   return (
-    <main className="relative min-h-screen bg-[#020617]">
+    <main className="relative min-h-screen bg-[#020617] overflow-x-clip">
       <Navbar />
       
-      {/* Using 'items-start' is essential for the sticky behavior to work. 
-          It tells the grid to let children stay at their natural height.
-      */}
       <div className="max-w-7xl mx-auto px-6 pt-32 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
         
-        {/* Left Side Content */}
+        {/* Left Side: This div must be longer than the form for sticky to work */}
         <div className="space-y-12">
           <div className="space-y-4">
-            <h1 className="text-7xl md:text-8xl font-black tracking-tighter leading-none text-white uppercase">
+            <h1 className="text-7xl md:text-8xl font-black tracking-tighter text-white uppercase">
               JOIN THE <br/> <span className="text-teal-400 underline decoration-teal-400/20">COHORT.</span>
             </h1>
             <p className="text-slate-500 font-mono text-xs uppercase tracking-widest">
-              // Enrollment is currently open for Spring 2026
+              // Enrollment Open: Spring 2026
             </p>
           </div>
 
           <div className="prose prose-invert max-w-none">
-            {/* The long content area that creates the scroll */}
-            <div className="h-[1400px] border-l border-teal-500/10 pl-8 space-y-16">
-              <div className="space-y-4">
-                <h3 className="text-xl font-bold text-white uppercase tracking-tight font-mono">01. Expert Mentorship</h3>
-                <p className="text-slate-500 text-sm leading-relaxed max-w-md">
-                  Learn directly from Full-stack engineers building production-grade solutions in real-world environments.
-                </p>
-              </div>
+            {/* Added a very large height to ensure the left side is long enough to scroll */}
+            <div className="min-h-[1500px] border-l border-teal-500/10 pl-8 space-y-20">
+              <section className="space-y-4">
+                <h3 className="text-xl font-bold text-white uppercase font-mono tracking-tight">01. Engineering Mentorship</h3>
+                <p className="text-slate-500 text-sm leading-relaxed max-w-md">Professional guidance through complex architecture and system design.</p>
+              </section>
 
-              <div className="space-y-4">
-                <h3 className="text-xl font-bold text-white uppercase tracking-tight font-mono">02. Modern Stack</h3>
-                <p className="text-slate-500 text-sm leading-relaxed max-w-md">
-                  Master FastAPI, Next.js, Flutter, and Docker. Build architectural foundations that scale.
-                </p>
-              </div>
+              <section className="space-y-4">
+                <h3 className="text-xl font-bold text-white uppercase font-mono tracking-tight">02. Distributed Systems</h3>
+                <p className="text-slate-500 text-sm leading-relaxed max-w-md">Learn to build and deploy high-availability backends with FastAPI and Docker.</p>
+              </section>
 
-              <div className="space-y-4">
-                <h3 className="text-xl font-bold text-white uppercase tracking-tight font-mono">03. Project-Based</h3>
-                <p className="text-slate-500 text-sm leading-relaxed max-w-md">
-                  No theoretical fluff. You build core systems from day one under professional code review.
-                </p>
-              </div>
+              <section className="space-y-4">
+                <h3 className="text-xl font-bold text-white uppercase font-mono tracking-tight">03. Full-Stack Mastery</h3>
+                <p className="text-slate-500 text-sm leading-relaxed max-w-md">Bridge the gap between beautiful Next.js frontends and robust database logic.</p>
+              </section>
+
+              <section className="space-y-4">
+                <h3 className="text-xl font-bold text-white uppercase font-mono tracking-tight">04. Peer Network</h3>
+                <p className="text-slate-500 text-sm leading-relaxed max-w-md">Connect with a localized cohort of developers solving real-world challenges.</p>
+              </section>
             </div>
           </div>
         </div>
 
-        {/* Right Side Sticky Form */}
-        <div className="lg:sticky lg:top-32 w-full flex justify-center">
+        {/* Right Side: The Sticky Container */}
+        <div className="lg:sticky lg:top-32 w-full flex justify-center pb-10">
           <RegistrationForm />
         </div>
       </div>
