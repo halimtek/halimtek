@@ -41,8 +41,8 @@ origins = [
     "http://localhost:3001",
     "https://halimtek.vercel.app",
     "https://adminhalimtek.vercel.app",
-    "https://halimtek.is-a.dev",
-    "https://halimtek.onrender.com",
+    # "https://halimtek.is-a.dev",
+    # "https://halimtek.onrender.com",
 ]
 
 app.add_middleware(
