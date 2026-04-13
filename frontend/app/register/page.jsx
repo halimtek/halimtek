@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import RegisterForm from "@/components/RegistrationForm";
+import RegistrationForm from "@/components/RegistrationForm";
 
 export default function RegisterPage() {
   return (
@@ -37,7 +37,7 @@ export default function RegisterPage() {
 
         {/* Right Side Sticky Form */}
         <div className="relative w-full">
-          <RegisterForm />
+          <RegistrationForm />
         </div>
       </div>
 
