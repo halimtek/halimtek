@@ -1,11 +1,11 @@
-"use client"; // This MUST be at the very top
+"use client";
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Changed from react-router-dom
+import { useRouter } from 'next/navigation';
 import { User, Mail, Lock, Code, Eye, Send, Loader2 } from 'lucide-react';
 
 const RegistrationForm = () => {
-  const router = useRouter(); // Changed from useNavigate
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
@@ -42,12 +42,9 @@ const RegistrationForm = () => {
     const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
     try {
-      // Fixed the syntax for the template literal
       const response = await fetch(`${API_BASE}/register`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
@@ -55,7 +52,7 @@ const RegistrationForm = () => {
 
       if (response.ok) {
         alert("Protocol Initialized. Your application is now pending review.");
-        router.push('/login'); // Changed from navigate('/login')
+        router.push('/login'); 
       } else {
         setError(data.detail || "System rejected the protocol.");
       }
@@ -67,13 +64,18 @@ const RegistrationForm = () => {
   };
 
   return (
+    /* Use the exact bg and border colors from your original vision */
     <div className="w-full bg-[#0f172a] border border-slate-800 rounded-2xl p-8 shadow-2xl backdrop-blur-sm">
+      
+      {/* Header - Kept exactly as you wrote it */}
       <div className="mb-8">
         <h2 className="text-3xl font-bold text-white mb-2 font-mono flex items-center gap-2">
           <Code className="text-teal-400" />
           INITIALIZE_ENGINEER_PROFILE
         </h2>
-        <p className="text-slate-400 font-mono text-xs uppercase tracking-widest">Halim Tek Core // Secure Onboarding</p>
+        <p className="text-slate-400 font-mono text-xs uppercase tracking-widest">
+          Halim Tek Core // Secure Onboarding
+        </p>
       </div>
 
       {error && (
@@ -84,13 +86,14 @@ const RegistrationForm = () => {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
           <div className="space-y-2">
             <label className="text-sm font-medium text-slate-300 flex items-center gap-2 font-mono">
               <User size={14} /> FULL_NAME
             </label>
             <input
               required
-              className="w-full bg-[#020617] border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-teal-500 transition-colors"
+              className="w-full bg-[#020617] border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-teal-500 transition-colors font-sans"
               placeholder="Halim Tek"
               onChange={(e) => setFormData({...formData, fullName: e.target.value})}
             />
@@ -103,7 +106,7 @@ const RegistrationForm = () => {
             <input
               required
               type="email"
-              className="w-full bg-[#020617] border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-teal-500 transition-colors"
+              className="w-full bg-[#020617] border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-teal-500 transition-colors font-sans"
               placeholder="halim@engineer.com"
               onChange={(e) => setFormData({...formData, email: e.target.value})}
             />
@@ -116,7 +119,7 @@ const RegistrationForm = () => {
             <input
               required
               type="password"
-              className="w-full bg-[#020617] border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-teal-500 transition-colors"
+              className="w-full bg-[#020617] border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-teal-500 transition-colors font-sans"
               placeholder="••••••••"
               onChange={(e) => setFormData({...formData, password: e.target.value})}
             />
@@ -129,7 +132,7 @@ const RegistrationForm = () => {
             <textarea
               required
               rows="3"
-              className="w-full bg-[#020617] border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-teal-500 transition-colors"
+              className="w-full bg-[#020617] border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:border-teal-500 transition-colors font-sans"
               placeholder="Describe your architectural goals..."
               onChange={(e) => setFormData({...formData, projectVision: e.target.value})}
             />
@@ -143,7 +146,7 @@ const RegistrationForm = () => {
                   key={track.id}
                   type="button"
                   onClick={() => handleTrackChange(track.id)}
-                  className={`px-4 py-2 rounded-full border text-xs font-mono transition-all ${
+                  className={`px-4 py-2 rounded-full border text-[10px] font-mono transition-all ${
                     formData.tracks.includes(track.id)
                       ? 'bg-teal-500/20 border-teal-500 text-teal-400'
                       : 'border-slate-700 text-slate-500 hover:border-slate-500'
@@ -159,9 +162,16 @@ const RegistrationForm = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+          className="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all disabled:opacity-50 uppercase tracking-widest text-sm"
         >
-          {loading ? <Loader2 className="animate-spin" /> : <><Send size={18} /> INITIALIZE_PROTOCOL</>}
+          {loading ? (
+            <Loader2 className="animate-spin" />
+          ) : (
+            <>
+              <Send size={18} />
+              INITIALIZE_PROTOCOL
+            </>
+          )}
         </button>
       </form>
     </div>
