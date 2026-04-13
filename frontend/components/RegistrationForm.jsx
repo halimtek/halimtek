@@ -185,4 +185,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegistrationForm;
+export default RegisterForm;
