@@ -6,7 +6,7 @@ export default function RegisterPage() {
   return (
     /* Removed min-h-screen from here because it's already in the body */
     <div className="relative bg-[#020617]">
-      <div className="max-w-7xl mx-auto px-6 pt-32 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+      <div className="max-w-7xl mx-auto px-6 mt-32 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
         
         {/* Left Side: Long Content */}
         <div className="space-y-12">
@@ -39,7 +39,7 @@ export default function RegisterPage() {
         </div>
 
         {/* Right Side: THE STICKY FIX */}
-        <aside className="lg:sticky lg:top-32 w-full self-start">
+        <aside className="lg:sticky lg:top-20 w-full self-start">
           <RegistrationForm />
         </aside>
       </div>

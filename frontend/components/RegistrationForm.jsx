@@ -91,7 +91,7 @@ const RegistrationForm = () => {
   };
 
   return (
-    <div className="w-full max-w-2xl bg-[#0f172a] border border-slate-800 rounded-2xl p-8 shadow-2xl backdrop-blur-sm">
+    <div className="w-full max-w-2xl bg-[#0f172a] border border-slate-800 rounded-2xl p-8 shadow-2xl backdrop-blur-sm relative z-20">
       <div className="mb-8">
         <h2 className="text-3xl font-bold text-white mb-2 font-mono flex items-center gap-2">
           {showOtp ? <ShieldCheck className="text-teal-400" /> : <Code className="text-teal-400" />}
