@@ -2,13 +2,13 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { User, Mail, Lock, Code, Eye, Send, Loader2, ShieldCheck } from 'lucide-react';
+import { User, Mail, Lock, Code, Send, Loader2, ShieldCheck } from 'lucide-react';
 
 const RegistrationForm = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [showOtp, setShowOtp] = useState(false); // New state to toggle UI
+  const [showOtp, setShowOtp] = useState(false);
   const [otpCode, setOtpCode] = useState('');
   
   const [formData, setFormData] = useState({
@@ -36,7 +36,6 @@ const RegistrationForm = () => {
     }));
   };
 
-  // Phase 1: Request OTP
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -52,7 +51,7 @@ const RegistrationForm = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setShowOtp(true); // Switch to OTP view
+        setShowOtp(true);
       } else {
         setError(data.detail || "System rejected the protocol.");
       }
@@ -63,7 +62,6 @@ const RegistrationForm = () => {
     }
   };
 
-  // Phase 2: Verify OTP
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -91,7 +89,10 @@ const RegistrationForm = () => {
   };
 
   return (
-    <div className="w-full max-w-2xl bg-[#0f172a] border border-slate-800 rounded-2xl p-8 shadow-2xl backdrop-blur-sm relative z-20">
+    /* STICKY NOTE: The relative z-20 ensures it stays above background blobs. 
+       The w-full and max-w-2xl ensure it fits the 'aside' track correctly.
+    */
+    <div className="relative z-20 w-full max-w-2xl bg-[#0f172a] border border-slate-800 rounded-2xl p-8 shadow-2xl backdrop-blur-sm">
       <div className="mb-8">
         <h2 className="text-3xl font-bold text-white mb-2 font-mono flex items-center gap-2">
           {showOtp ? <ShieldCheck className="text-teal-400" /> : <Code className="text-teal-400" />}
@@ -109,7 +110,6 @@ const RegistrationForm = () => {
       )}
 
       {!showOtp ? (
-        /* REGISTRATION FORM */
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
@@ -151,7 +151,7 @@ const RegistrationForm = () => {
             </div>
 
             <div className="md:col-span-2 space-y-3">
-              <label className="text-sm font-medium text-slate-300 font-mono">SPECIALIZATION_TRACKS</label>
+              <label className="text-sm font-medium text-slate-300 font-mono tracking-widest uppercase">Specialization Tracks</label>
               <div className="flex flex-wrap gap-2">
                 {availableTracks.map(track => (
                   <button
@@ -180,16 +180,15 @@ const RegistrationForm = () => {
           </button>
         </form>
       ) : (
-        /* OTP VERIFICATION VIEW */
         <form onSubmit={handleVerifyOtp} className="space-y-6">
           <div className="space-y-4">
-            <p className="text-slate-400 text-sm font-mono">
-              ENTER_6_DIGIT_PASSCODE_SENT_TO_YOUR_TERMINAL:
+            <p className="text-slate-400 text-sm font-mono uppercase tracking-wider">
+              ENTER_6_DIGIT_PASSCODE:
             </p>
             <input
               required
               maxLength={6}
-              className="w-full bg-[#020617] border-2 border-dashed border-slate-700 rounded-lg p-5 text-center text-4xl font-mono tracking-[1em] text-teal-400 focus:outline-none focus:border-teal-500 focus:border-solid transition-all"
+              className="w-full bg-[#020617] border-2 border-dashed border-slate-700 rounded-lg p-5 text-center text-4xl font-mono tracking-[0.5em] text-teal-400 focus:outline-none focus:border-teal-500 focus:border-solid transition-all"
               placeholder="000000"
               value={otpCode}
               onChange={(e) => setOtpCode(e.target.value)}
@@ -197,7 +196,7 @@ const RegistrationForm = () => {
             <button 
               type="button" 
               onClick={() => setShowOtp(false)}
-              className="text-xs text-slate-500 hover:text-teal-400 font-mono uppercase underline"
+              className="text-xs text-slate-500 hover:text-teal-400 font-mono uppercase underline block mx-auto"
             >
               Back to Registration
             </button>

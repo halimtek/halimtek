@@ -1,12 +1,9 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import RegistrationForm from "@/components/RegistrationForm";
 
 export default function RegisterPage() {
   return (
-    /* Removed min-h-screen from here because it's already in the body */
-    <div className="relative bg-[#020617]">
-      <div className="max-w-7xl mx-auto px-6 mt-32 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+    <div className="relative bg-[#020617] overflow-visible">
+      <div className="max-w-7xl mx-auto px-6 pt-32 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
         
         {/* Left Side: Long Content */}
         <div className="space-y-12">
@@ -20,8 +17,8 @@ export default function RegisterPage() {
           </div>
 
           <div className="prose prose-invert max-w-none">
-            {/* This height creates the "track" for the form to slide on */}
-            <div className="min-h-[1400px] border-l border-teal-500/10 pl-8 space-y-20">
+            {/* Height set to 1500px to ensure the form has room to slide down */}
+            <div className="min-h-[1500px] border-l border-teal-500/10 pl-8 space-y-20">
               <div className="space-y-4">
                 <h3 className="text-xl font-bold text-white uppercase font-mono">01. Mentorship</h3>
                 <p className="text-slate-500 text-sm leading-relaxed">Direct guidance from senior full-stack engineers.</p>
@@ -34,17 +31,20 @@ export default function RegisterPage() {
                 <h3 className="text-xl font-bold text-white uppercase font-mono">03. Deployment</h3>
                 <p className="text-slate-500 text-sm leading-relaxed">Master CI/CD and production environments.</p>
               </div>
+              {/* Extra spacing to visualize the scroll */}
+              <div className="h-[600px] flex items-end">
+                 <p className="text-slate-700 font-mono text-xs italic">// Protocol end line</p>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Right Side: THE STICKY FIX */}
-        <aside className="lg:sticky lg:top-20 w-full self-start">
+        {/* Right Side: The Form Container */}
+        {/* self-start prevents the box from stretching to the bottom */}
+        <aside className="lg:sticky lg:top-28 w-full self-start">
           <RegistrationForm />
         </aside>
       </div>
-
-    
     </div>
   );
-} 
+}
