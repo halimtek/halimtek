@@ -44,7 +44,7 @@ export default function RegisterPage() {
         </aside>
       </div>
 
-      <Footer />
+    
     </div>
   );
 } 
