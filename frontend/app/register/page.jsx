@@ -4,10 +4,8 @@ import RegistrationForm from "@/components/RegistrationForm";
 
 export default function RegisterPage() {
   return (
-    /* Use overflow-visible to ensure sticky works */
-    <main className="relative min-h-screen bg-[#020617] overflow-visible">
-      <Navbar />
-      
+    /* Removed min-h-screen from here because it's already in the body */
+    <div className="relative bg-[#020617]">
       <div className="max-w-7xl mx-auto px-6 pt-32 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
         
         {/* Left Side: Long Content */}
@@ -22,7 +20,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="prose prose-invert max-w-none">
-            {/* Height must be larger than the form to see the sticky effect */}
+            {/* This height creates the "track" for the form to slide on */}
             <div className="min-h-[1400px] border-l border-teal-500/10 pl-8 space-y-20">
               <div className="space-y-4">
                 <h3 className="text-xl font-bold text-white uppercase font-mono">01. Mentorship</h3>
@@ -40,13 +38,13 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        {/* Right Side: Sticky wrapper */}
-        <div className="lg:sticky lg:top-32 w-full">
+        {/* Right Side: THE STICKY FIX */}
+        <aside className="lg:sticky lg:top-32 w-full self-start">
           <RegistrationForm />
-        </div>
+        </aside>
       </div>
 
-    
-    </main>
+      <Footer />
+    </div>
   );
-}
+} 
